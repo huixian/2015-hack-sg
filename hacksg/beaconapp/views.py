@@ -104,52 +104,9 @@ def search_api(request):
     print("start_time %s" % str(start_time))
     print("end_time %s" % str(end_time))
 
-
     payload = {}
 
     for elem in reading_set:
-        print("hi %s" % str(elem.beacon_timestamp))
-
         payload[str(elem.beacon_timestamp)] = str(elem.beacon_lat) + ", " + str(elem.beacon_lon)
 
     return HttpResponse(json.dumps(payload), content_type="application/json")
-
-class ReadingsView(TemplateView):
-    '''
-    A Template View to display readings dashboard
-    '''
-
-    template_name = 'base/readings.html'
-
-    def get_reading_info(self):
-        recent_reading = []
-        
-        nodes = Node.objects.filter()
-
-        for node in nodes:
-            if node.registration_status:
-                active_node.append(node)
-            else:
-                inactive_node.append(node)
-
-        return {
-                'active_node': active_node,
-                'inactive_node': inactive_node
-        }
-
-    def get_context_data(self, **kwargs):
-        ctx = super(ReadingsView, self).get_context_data(**kwargs)
-
-        modality = SensorMap.objects.filter()
-        nodes = self.get_reading_info()
-        print("ReadingsView: Modality:" + str(len(modality)))
-        for modal in modality:
-            print(modal)
-        ctx.update({
-                'nodes': nodes,
-                'modalities': modality
-            })
-        return ctx
-
-    def dispatch(self, *args, **kwargs):
-        return super(ReadingsView, self).dispatch(*args, **kwargs)
