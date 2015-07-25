@@ -34,3 +34,61 @@ var mapOptions =  {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);*/
+
+console.log("loading...");
+
+var findButton = document.getElementById('BtnSubmit');
+var tagInput = document.getElementById('tagid');
+var dateInput = document.getElementById('startdate');
+var timeInput = document.getElementById('starttime');
+
+JSONTest = function() {
+    console.log("click on findButton");
+    console.log(tagInput.value);
+    console.log(dateInput.value);
+    console.log(starttime.value);
+
+    $.ajax({
+        url: "http://localhost:8000/beacon/api/search/",
+        type: "GET",
+        data: { tag_id: tagInput.value, missing_ts: 12345 },
+        dataType: "json",
+        success: function (obj) {
+            console.log("Success result");
+            console.log(obj);
+
+            var map = new google.maps.Map(document.getElementById('gmap'), {
+                zoom: 10,
+                center: new google.maps.LatLng(1.31474,103.86709),
+                mapTypeId: google.maps.MapTypeId.ROADMAP 
+            });
+
+            var marker, i;
+
+            for (var p in obj) {
+                if( obj.hasOwnProperty(p) ) {
+                    result = p + " , " + obj[p] + "\n";
+                    console.log("> " + result);
+                    var res = obj[p].split(",");
+                    var lat = parseFloat(res[0]);
+                    var lon = parseFloat(res[1]);
+                    console.log(">> " + lat);
+                    console.log(">> " + lon);
+
+                    marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(lat, lon), map: map
+                    });
+                } 
+            }       
+        },
+
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log("Error result");
+        // alert(xhr.status);
+        // alert(thrownError);
+        }
+    });
+};
+
+findButton.addEventListener('click', JSONTest, false);
+
