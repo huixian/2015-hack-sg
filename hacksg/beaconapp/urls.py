@@ -14,9 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import patterns, include, url
-from django.contrib import admin
+#from django.contrib import admin
+from . import views
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^beacon/', include('beaconapp.urls')),
+    url(r'^$', views.index, name='index'),
+    url(r'^(?P<node_id>[0-9]+)/$', views.node_detail, name='node_detail'),
+    ###### 			APIs 			#######
+    #	API to create reading
+    url(r'^api/readings$', views.create_reading_api, name="create_reading_api"),
 ]
+

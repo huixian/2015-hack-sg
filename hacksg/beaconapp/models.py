@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from . import managers
 #from geoposition.fields import GeopositionField
 
 # Create your models here.
@@ -52,7 +53,7 @@ class Reading(models.Model):
 
     beacon_timestamp = models.DateTimeField(default=timezone.now())
 
-    sequence = models.PositiveIntegerField()
+    # sequence = models.PositiveIntegerField()
 
     beacon = models.ForeignKey('Node', blank=False, null=False,
                         related_name='beacon_reading')
@@ -64,6 +65,8 @@ class Reading(models.Model):
 
     beacon_lat = models.DecimalField(max_digits=6, decimal_places=3, blank=False, default=0.0)
     beacon_lon = models.DecimalField(max_digits=6, decimal_places=3, blank=False, default=0.0)
+
+    objects = managers.ReadingsManager()
 
     def __str__(self):
         return ', '.join([str(self.beacon_timestamp), str(self.beacon.node_id), str(self.tag.node_id)])

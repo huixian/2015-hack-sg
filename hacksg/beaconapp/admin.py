@@ -8,3 +8,6 @@ from .models import Reading
 admin.site.register(NodeType)
 admin.site.register(Node)
 admin.site.register(Reading)
+
+class NodeAdmin(admin.ModelAdmin):
+    list_display = ('node_id', 'node_type', 'node_name')
