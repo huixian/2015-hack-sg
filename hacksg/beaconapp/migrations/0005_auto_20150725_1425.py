@@ -2,9 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import datetime
-import geoposition.fields
 from django.utils.timezone import utc
+import datetime
 
 
 class Migration(migrations.Migration):
@@ -15,13 +14,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='node',
-            name='node_location',
-            field=geoposition.fields.GeopositionField(max_length=42),
-        ),
-        migrations.AlterField(
             model_name='reading',
             name='beacon_timestamp',
-            field=models.DateTimeField(default=datetime.datetime(2015, 7, 25, 5, 7, 6, 960936, tzinfo=utc)),
+            field=models.DateTimeField(default=datetime.datetime(2015, 7, 25, 6, 25, 12, 18668, tzinfo=utc)),
         ),
     ]
