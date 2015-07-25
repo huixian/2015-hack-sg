@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from geoposition.fields import GeopositionField
+#from geoposition.fields import GeopositionField
 
 # Create your models here.
 
@@ -33,10 +33,13 @@ class Node(models.Model):
 
     node_name = models.CharField(max_length=100, blank=False, default="null")
 
-    node_location = GeopositionField(default=GeopositionField(0,0))
+    node_lat = models.DecimalField(max_digits=6, decimal_places=3, blank=False, default=0.0)
+    node_lon = models.DecimalField(max_digits=6, decimal_places=3, blank=False, default=0.0)
+
+    # node_location = GeopositionField(default=GeopositionField(0,0))
 
     def __str__(self):
-        return ', '.join(['id ' + str(self.node_id), 'type ' + str(self.node_type.type_id)])
+        return ', '.join(['id ' + str(self.node_id), ' ' + str(self.node_type.get_node_profile_type_display()) + ', ' + str(self.node_name)])
 
 class Reading(models.Model):
     ''' Beacon Readings
@@ -59,7 +62,8 @@ class Reading(models.Model):
 
     tagDesc = models.CharField(max_length=50, blank=True)
 
-    beaconLoc = GeopositionField(default=GeopositionField(0,0))
+    beacon_lat = models.DecimalField(max_digits=6, decimal_places=3, blank=False, default=0.0)
+    beacon_lon = models.DecimalField(max_digits=6, decimal_places=3, blank=False, default=0.0)
 
     def __str__(self):
         return ', '.join([str(self.beacon_timestamp), str(self.beacon.node_id), str(self.tag.node_id)])
