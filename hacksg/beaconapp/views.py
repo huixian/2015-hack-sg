@@ -55,7 +55,6 @@ def create_reading_api(request):
     except Node.DoesNotExist:
         return HttpResponse("Tag %s does not exist" % tag_id, status=404)
 
-    print("ok till here")
     print("beacon_timestamp %s" % str(beacon_timestamp))
     print("node_beacon %s" % str(node_beacon.node_id))
     print("node_tag %s" % str(node_tag.node_id))
@@ -66,6 +65,5 @@ def create_reading_api(request):
     rx_ts = datetime.datetime.fromtimestamp(beacon_timestamp, tz=sys_tz)
     
     reading_new = Reading.objects.create_reading(rx_ts, node_beacon, node_tag, tag_desc, beacon_lat, beacon_lon) 
-    #reading_new = Reading.objects.create_reading() 
-
+    
     return HttpResponse("hello %s" % beacon_id)
