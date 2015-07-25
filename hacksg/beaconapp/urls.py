@@ -23,5 +23,7 @@ urlpatterns = [
     ###### 			APIs 			#######
     #	API to create reading
     url(r'^api/readings$', views.create_reading_api, name="create_reading_api"),
+    #   API to view readings
+    url(r'^api/search/$', views.search_api, name="search_api"),
 ]
 

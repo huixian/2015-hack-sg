@@ -67,3 +67,41 @@ def create_reading_api(request):
     reading_new = Reading.objects.create_reading(rx_ts, node_beacon, node_tag, tag_desc, beacon_lat, beacon_lon) 
     
     return HttpResponse("hello %s" % beacon_id)
+
+@csrf_exempt
+def search_api(request):
+    '''
+    API HTTP GET call 
+    '''
+
+    data = request.GET
+    tag_id = data.get('tag_id', None)
+    missing_timestamp = int(data.get('missing_ts', None))
+
+    sys_tz = pytz.timezone(settings.TIME_ZONE)
+    start_time = datetime.datetime.fromtimestamp(missing_timestamp, tz=sys_tz)
+    end_time = datetime.datetime.now(tz=sys_tz)
+
+    try:
+        node_tag = Node.objects.get(node_id=tag_id)
+    except Node.DoesNotExist:
+        return HttpResponse("Tag %s does not exist" % tag_id, status=404)
+
+    print("tag_id %s is in database" % str(node_tag.node_id))
+
+    reading_set = Reading.objects.filter(tag = node_tag)
+    if not reading_set:
+        return HttpResponse("Readings for tag_id %s does not exist" % tag_id, status=404)
+
+    reading_set = reading_set.filter(beacon_timestamp__gte = start_time, beacon_timestamp__lt = end_time)
+    if not reading_set:
+        return HttpResponse("Readings for tag_id %s within time range does not exist" % tag_id, status=404)
+
+    count = reading_set.count()
+
+    # filter(beacon_timestamp__gte = start_time, beacon_timestamp__lt = end_time) 
+    print("count %s" % str(count))
+    print("start_time %s" % str(start_time))
+    print("end_time %s" % str(end_time))
+
+    return HttpResponse("GrandMa %s found with %s readings" % (str(node_tag.node_id), str(count)))
