@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% load staticfiles%}
+
+{% load i18n %}
+{% load url from future %}
+
+{% block html_class %}class="fixed sidebar-left-collapsed"{% endblock %}
+
+{% block head_title %}Find My Grandma{% endblock %}
+
+
+{% block css %}
+    <!-- Latest compiled and minified CSS -->
+    <link href="{% static 'css/bootstrap/bootstrap.css' %}" rel="stylesheet"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap-theme.min.css' %}">
+
+    <!-- Your stuff: Third-party css libraries go here -->
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/magnific-popup/magnific-popup.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap/datepicker3.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap-timepicker.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/ui-lightness/jquery-ui-1.10.4.custom.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap-multiselect.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/morris/morris.css' %}" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Nothing+You+Could+Do|Quicksand:400,700,300">
+    <link rel="stylesheet" href="{% static 'css/select2/select2.css' %}" />    
+    <link rel="stylesheet" href="{% static 'css/nanoscroller/nanoscroller.css' %}" />
+    <!-- This file store project specific CSS -->
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}" />
+
+    <!-- Skin CSS -->
+    <link rel="stylesheet" href="{% static 'css/skins/default.css' %}" />
+
+    <!-- Theme Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/theme-custom.css' %}">
+    <link href="{% static 'css/project.css' %}" rel="stylesheet">
+    <!-- Head Libs -->
+    <script src="{% static 'js/modernizr/modernizr.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+
+<section class="body">
+
+	<!-- start: header -->
+	<header class="header">
+		<div class="logo-container">
+			<a href="../" class="logo">
+				<img src="{% static 'images/logo.png' %}" height="35" alt="Elderly Accessibility Index" />
+			</a>
+			<div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
+				<i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+			</div>
+		</div>
+
+	</header>
+	<!-- end: header -->
+
+	<div class="inner-wrapper">
+
+		<section role="main" class="content-body">
+			<header class="page-header">
+				<h2>Find My Grandma</h2>
+			
+				<div class="right-wrapper pull-right">
+					<ol class="breadcrumbs">
+						<li>
+							<a href="index.html">
+								<i class="fa fa-home"></i>
+							</a>
+						</li>
+						<li><span>Maps</span></li>
+					</ol>
+			
+					<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+				</div>
+			</header>
+
+			<!-- start: page -->
+			<section class="content-with-menu" data-theme-gmap-builder>
+				<div class="content-with-menu-container">
+
+					<div class="inner-menu-toggle">
+						<a href="#" class="inner-menu-expand" data-open="inner-menu">
+							Show Options <i class="fa fa-chevron-right"></i>
+						</a>
+					</div>
+
+					<menu id="content-menu" class="inner-menu" role="menu">
+						<div class="nano">
+							<div class="nano-content">
+
+								<div class="inner-menu-toggle-inside">
+									<a href="#" class="inner-menu-collapse">
+										<i class="fa fa-chevron-up visible-xs-inline"></i><i class="fa fa-chevron-left hidden-xs-inline"></i> Hide Options
+									</a>
+									<a href="#" class="inner-menu-expand" data-open="inner-menu">
+										Show Options <i class="fa fa-chevron-down"></i>
+									</a>
+								</div>
+
+								<div class="inner-menu-content">
+
+									<p class="title">Information</p>
+
+									<div class="form-group">
+										<div class="row">
+											<label class="col-xs-12 control-label" for="longitude">Tag #ID</label>
+											<div class="col-xs-12">
+												<input id="tagid" name="tagid" class="form-control" placeholder="Tag ID" type="text">
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="row">
+											<label class="col-xs-12 control-label" for="longitude">Start Date Time</label>
+											<div class="col-xs-12">
+												<span class="input-group-addon">
+													<i class="fa fa-calendar"></i>
+												</span>
+												<input id="startdate" name="startdate" type="text" data-plugin-datepicker="" class="form-control">
+											</div>
+											<div class="col-xs-12">
+												<span class="input-group-addon">
+													<i class="fa fa-clock-o"></i>
+												</span>
+												<input id="starttime" name="starttime" type="text" data-plugin-timepicker="" class="form-control">
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<ul id="ButtonList" class="list-markers list-unstyled mb-lg hidden">
+										</ul>
+
+										<div class="row">
+											<div class="col-sm-6">
+												<button id="BtnSubmit" class="btn btn-primary btn-block mb-lg" type="button">Submit</button>
+											</div>
+											<div class="col-sm-6">
+												<button id="BtnReset" class="btn btn-danger btn-block mb-lg" type="button">Reset</button>
+											</div>
+										</div>
+									</div>
+
+									<hr class="separator" />
+								</div>
+							</div>
+						</div>
+					</menu>
+					<div class="inner-body">
+						<div id="gmap"></div>
+					</div>
+			</section>
+
+			<!-- end: page -->
+		</section>
+	</div>
+
+	<aside id="sidebar-right" class="sidebar-right">
+		<div class="nano">
+			<div class="nano-content">
+				<a href="#" class="mobile-close visible-xs">
+					Collapse <i class="fa fa-chevron-right"></i>
+				</a>
+	
+				<div class="sidebar-right-wrapper">
+	
+					<div class="sidebar-widget widget-friends">
+						<h6>Friends</h6>
+						<ul>
+							<li class="status-online">
+								<figure class="profile-picture">
+									<img src="{% static 'images/!sample-user.jpg' %}" alt="Joseph Doe" class="img-circle">
+								</figure>
+								<div class="profile-info">
+									<span class="name">Joseph Doe Junior</span>
+									<span class="title">Hey, how are you?</span>
+								</div>
+							</li>
+							<li class="status-online">
+								<figure class="profile-picture">
+									<img src="{% static 'images/!sample-user.jpg' %}" alt="Joseph Doe" class="img-circle">
+								</figure>
+								<div class="profile-info">
+									<span class="name">Joseph Doe Junior</span>
+									<span class="title">Hey, how are you?</span>
+								</div>
+							</li>
+							<li class="status-offline">
+								<figure class="profile-picture">
+									<img src="{% static 'images/!sample-user.jpg' %}" alt="Joseph Doe" class="img-circle">
+								</figure>
+								<div class="profile-info">
+									<span class="name">Joseph Doe Junior</span>
+									<span class="title">Hey, how are you?</span>
+								</div>
+							</li>
+							<li class="status-offline">
+								<figure class="profile-picture">
+									<img src="{% static 'images/!sample-user.jpg' %}" alt="Joseph Doe" class="img-circle">
+								</figure>
+								<div class="profile-info">
+									<span class="name">Joseph Doe Junior</span>
+									<span class="title">Hey, how are you?</span>
+								</div>
+							</li>
+						</ul>
+					</div>
+	
+				</div>
+			</div>
+		</div>
+	</aside>
+</section>
+{% endblock %}
+
+<!-- Specific Page Vendor -->
+{% block javascript %}
+<script src="{% static 'js/jquery/jquery.js' %}"></script>
+<script src="{% static 'js/jquery/jquery.browser.mobile.js' %}"></script>
+<script src="{% static 'js/jquery/jquery.placeholder.js' %}"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="{% static 'js/bootstrap/bootstrap.js' %}"></script>
+<script src="{% static 'js/nanoscroller/nanoscroller.js' %}"></script>
+<script src="{% static 'js/bootstrap/bootstrap-datepicker.js' %}"></script>
+<script src="{% static 'js/bootstrap/bootstrap-timepicker.js' %}"></script>
+<script src="{% static 'js/magnific-popup/magnific-popup.js' %}"></script>
+<script src="{% static 'js/select2/select2.js' %}"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script src="{% static 'js/maps/snazzy.themes.js' %}"></script>
+<script src="{% static 'js/theme.js' %}"></script>
+
+<!-- Theme Custom -->
+<script src="{% static 'js/theme.custom.js' %}"></script>
+
+<!-- Theme Initialization Files -->
+<script src="{% static 'js/theme.init.js' %}"></script>
+<script src="{% static 'js/maps/examples.map.builder.js' %}"></script>
+{% endblock %}
